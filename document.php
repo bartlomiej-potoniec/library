@@ -36,10 +36,19 @@
         <div class="main">
             <?php
                 if (isset($_GET['document'])) {
-                    $document = $_GET['document'];
+                    $document = basename($_GET['document']);
+                    $filePath = realpath('documents/' . $document);
 
-                    $file = readfile('documents/' . $document);
-                    echo $file;
+                    // Sprawdzenie czy plik znajduje się w katalogu documents
+                    if ($filePath !== false && strpos($filePath, realpath('documents')) === 0) {
+                        if (file_exists($filePath)) {
+                            readfile($filePath);
+                        } else {
+                            echo "Plik nie istnieje.";
+                        }
+                    } else {
+                        echo "Nieautoryzowany dostęp.";
+                    }
                 } else {
                     echo "Wybierz plik, który chcesz odczytać";
                 }
