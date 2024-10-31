@@ -62,15 +62,19 @@
                         $category = '';
 
                         if (isset($_GET['title'])) {
-                            $title = $_GET['title'];
+                            $title = filter_input(INPUT_GET, 'title', FILTER_SANITIZE_STRING);
                         }
 
                         if (isset($_GET['category'])) {
-                            $category = $_GET['category'];
+                            $category = filter_input(INPUT_GET, 'category', FILTER_SANITIZE_STRING);
                         }
 
-                        $query = "SELECT * FROM lectures WHERE title LiKE '%$title%' AND category LIKE '%$category%'";
-                        $stmt = $pdo->query($query);
+                        $stmt = $pdo->prepare("SELECT * FROM lectures WHERE title LiKE :title AND category LIKE :category");
+
+                        $stmt->execute([
+                            ':title' => '%' . $title . '%',
+                            ':category' => '%' . $category . '%'
+                        ]);
 
                         if ($stmt->rowCount() < 1) {
                             echo 'Brak książek dla tego tytułu i kategorii';
