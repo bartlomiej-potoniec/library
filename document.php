@@ -15,9 +15,9 @@
             <form method="get">
                 <label for="document">Kategoria: </label>
                 <select name="document" id="document">
-                    <option value="regulamin.txt">Regulamin</option>
-                    <option value="historia.txt">Historia księgarni</option>
-                    <option value="biuletyn_informacyjny.txt">Biuletyn Informacyjny</option>
+                    <option value="regulamin">Regulamin</option>
+                    <option value="historia">Historia księgarni</option>
+                    <option value="biuletyn_informacyjny">Biuletyn Informacyjny</option>
                 </select>
 
                 <button type="submit" class="search-button">Wyświetl</button>
@@ -37,7 +37,7 @@
             <?php
                 if (isset($_GET['document'])) {
                     $document = basename($_GET['document']);
-                    $filePath = realpath('documents/' . $document);
+                    $filePath = realpath('documents/' . $document . '.php');
 
                     // Sprawdzenie czy plik znajduje się w katalogu documents
                     if ($filePath !== false && strpos($filePath, realpath('documents')) === 0) {
