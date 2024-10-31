@@ -9,19 +9,76 @@
 </head>
 <body>
     <div class="container">
+        <h1 class="heading">Ksiągarnia</h1>
+
         <div class="filters">
-            <form action="get">
+            <form method="get">
                 <label for="title">Tytuł: </label>
                 <input name="title" id="title" type="text">
 
                 <label for="category">Kategoria: </label>
                 <select name="category" id="category">
                     <option value="">Wszystkie</option>
-                    <!-- skrypt PHP -->
+                    <?php
+                        require_once 'config.php';
+
+                        $query = "SELECT DISTINCT category FROM lectures";
+                        $stmt = $pdo->query($query);
+
+                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                            echo '<option value="' . $row['category'] . '">' . $row['category'] . '</option>';
+                        }
+                    ?>
                 </select>
 
-                <button type="submit">Szukaj</button>
+                <button type="submit" class="search-button">Szukaj</button>
             </form>
+        </div>
+
+        <div class="main">
+            <table class="table">
+                <thead>
+                    <th>Tytuł</th>
+                    <th>Opis</th>
+                    <th>Autor</th>
+                    <th>Kategoria</th>
+                    <th>Dostępnych sztuk</th>
+                </thead>
+                <tbody>
+
+                    <?php
+                        require_once 'config.php';
+
+                        $title = '';
+                        $category = '';
+
+                        if (isset($_GET['title'])) {
+                            $title = $_GET['title'];
+                        }
+
+                        if (isset($_GET['category'])) {
+                            $category = $_GET['category'];
+                        }
+
+                        $query = "SELECT * FROM lectures WHERE title LiKE '%$title%' AND category LIKE '%$category%'";
+                        $stmt = $pdo->query($query);
+
+                        if ($stmt->rowCount() < 1) {
+                            echo 'Brak książek dla tego tytułu i kategorii';
+                        } else {
+                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                echo "<tr>";
+                                echo "<td>" . $row['title'] . "</td>";
+                                echo "<td>" . $row['author'] . "</td>";
+                                echo "<td>" . $row['description'] . "</td>";
+                                echo "<td>" . $row['category'] . "</td>";
+                                echo "<td>" . $row['quantity'] . "</td>";
+                                echo "</tr>";
+                            }
+                        }
+                    ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </body>
