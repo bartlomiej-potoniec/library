@@ -40,6 +40,8 @@
 
                     $file = readfile('documents/' . $document);
                     echo $file;
+                } else {
+                    echo "Wybierz plik, który chcesz odczytać";
                 }
             ?>
         </div>
