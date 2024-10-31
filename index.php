@@ -35,12 +35,21 @@
             </form>
         </div>
 
+        <div class="nav">
+            <ul>
+                <li><a href="index.php">Wyszukiwarka</a></li>
+                <li><a href="document.php">Dokumenty</a></li>
+            </ul>
+        </div>
+
+        <div style="clear: both;"></div>
+
         <div class="main">
             <table class="table">
                 <thead>
                     <th>Tytuł</th>
-                    <th>Opis</th>
                     <th>Autor</th>
+                    <th>Opis</th>
                     <th>Kategoria</th>
                     <th>Dostępnych sztuk</th>
                 </thead>
@@ -83,3 +92,4 @@
     </div>
 </body>
 </html>
+
